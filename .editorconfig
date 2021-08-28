@@ -1,0 +1,2 @@
+[*.{cs,csx,cake}]
+dotnet_naming_style.first_word_upper_case_style.capitalization = first_word_lower

@@ -9,16 +9,16 @@ namespace UI
 {
     public partial class frmMain : Form
     {
-        ModeType[] modeTypeArr;
-        BookType[] bookTypeArr;
-        VersionSbis[] versionSbisArr;
+        private readonly ModeType[] modeTypeArr;
+        private readonly BookType[] bookTypeArr;
+        private readonly VersionSbis[] versionSbisArr;
         public frmMain()
         {
             InitializeComponent();
             cbMode.Items.Clear();
-            helpFillComboBox(cbMode, ref modeTypeArr);
-            helpFillComboBox(cbBookType, ref bookTypeArr);
-            helpFillComboBox(cbVersionSbis, ref versionSbisArr);
+            HelpFillComboBox(cbMode, ref modeTypeArr);
+            HelpFillComboBox(cbBookType, ref bookTypeArr);
+            HelpFillComboBox(cbVersionSbis, ref versionSbisArr);
 
             lbInputPath.Items.Add(@"C:\Files\NDS\09-1.xlsx");
             tbPathExport.Text = @"C:\Files\NDS";
@@ -27,7 +27,7 @@ namespace UI
             SetGoStyle(true);
         }
 
-        private void helpFillComboBox<T>(ComboBox control, ref T[] arr)
+        private void HelpFillComboBox<T>(ComboBox control, ref T[] arr)
         {
             Type t = typeof(T);
             arr = new T[Enum.GetValues(t).Length];
@@ -202,8 +202,8 @@ namespace UI
         {
             public delegate void DLog(string message);
             public delegate void DProgress(int value, int max);
-            private DLog log = null;
-            private DProgress progress = null;
+            private readonly DLog log = null;
+            private readonly DProgress progress = null;
             public int errorQnt { get; set; }
             public Callback(DLog ilog, DProgress iprogress)
             {
@@ -243,9 +243,11 @@ namespace UI
 
         private void btnPathImport_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Multiselect = true;
-            ofd.Filter = (modeTypeArr[cbMode.SelectedIndex] is ModeType.ExcelToXml) ? "*.xlsx|*.xlsx|*.xls|*.xls" : "*.xml|*.xml";
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                Multiselect = true,
+                Filter = (modeTypeArr[cbMode.SelectedIndex] is ModeType.ExcelToXml) ? "*.xlsx|*.xlsx|*.xls|*.xls" : "*.xml|*.xml"
+            };
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 foreach (string item in ofd.FileNames)
@@ -272,8 +274,10 @@ namespace UI
 
         private void сохранитьВФайлToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "Текстовый файл (*.txt)|*.txt";
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "Текстовый файл (*.txt)|*.txt"
+            };
 
             if (sfd.ShowDialog() == DialogResult.OK)
             {

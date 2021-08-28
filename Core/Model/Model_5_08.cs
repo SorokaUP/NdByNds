@@ -189,10 +189,10 @@ namespace Core.Model
 
                 res.Add($"<{map08.TagLine}");
                 res.Add("НомерПор".AsAttr(GetNumberLine()));
-                res.Add(data[Map08.НомерИДатаСФПрод]?.ToString().AsAttrDocNumDate("НомСчФПрод", "ДатаСчФПрод"));
-                res.Add(data[Map08.НомерИДатаИспрСФПрод]?.ToString().AsAttrDocNumDate("НомИспрСчФ", "ДатаИспрСчФ"));
-                res.Add(data[Map08.НомерИДатаКоррСФПрод]?.ToString().AsAttrDocNumDate("НомКСчФПрод", "ДатаКСчФПрод"));
-                res.Add(data[Map08.НомерИДатаИспрКоррСФПрод]?.ToString().AsAttrDocNumDate("НомИспрКСчФ", "ДатаИспрКСчФ"));
+                res.Add(data.AsAttrDocNumDate(Map08.НомерИДатаСФПрод, "НомСчФПрод", "ДатаСчФПрод"));
+                res.Add(data.AsAttrDocNumDate(Map08.НомерИДатаИспрСФПрод, "НомИспрСчФ", "ДатаИспрСчФ"));
+                res.Add(data.AsAttrDocNumDate(Map08.НомерИДатаКоррСФПрод, "НомКСчФПрод", "ДатаКСчФПрод"));
+                res.Add(data.AsAttrDocNumDate(Map08.НомерИДатаИспрКоррСФПрод, "НомИспрКСчФ", "ДатаИспрКСчФ"));
                 res.Add("СтоимПокупВ".AsAttr(data.AsDec(Map08.СтоимостьПокВклНДС)));
                 res.Add("СумНДСВыч".AsAttr(data.AsDec(Map08.СуммаНДС)));
                 res.Add($">");
@@ -239,10 +239,10 @@ namespace Core.Model
 
                 res.Add($"<{map09.TagLine}");
                 res.Add("НомерПор".AsAttr(GetNumberLine()));
-                res.Add(data[Map09.НомерИДатаСФПрод]?.ToString().AsAttrDocNumDate("НомСчФПрод", "ДатаСчФПрод", ';'));
-                res.Add(data[Map09.НомерИДатаИспрСФПрод]?.ToString().AsAttrDocNumDate("НомИспрСчФ", "ДатаИспрСчФ", ';'));
-                res.Add(data[Map09.НомерИДатаКоррСФПрод]?.ToString().AsAttrDocNumDate("НомКСчФПрод", "ДатаКСчФПрод", ';'));
-                res.Add(data[Map09.НомерИДатаИспрКоррСФПрод]?.ToString().AsAttrDocNumDate("НомИспрКСчФ", "ДатаИспрКСчФ", ';'));
+                res.Add(data.AsAttrDocNumDate(Map09.НомерИДатаСФПрод, "НомСчФПрод", "ДатаСчФПрод", ';'));
+                res.Add(data.AsAttrDocNumDate(Map09.НомерИДатаИспрСФПрод, "НомИспрСчФ", "ДатаИспрСчФ", ';'));
+                res.Add(data.AsAttrDocNumDate(Map09.НомерИДатаКоррСФПрод, "НомКСчФПрод", "ДатаКСчФПрод", ';'));
+                res.Add(data.AsAttrDocNumDate(Map09.НомерИДатаИспрКоррСФПрод, "НомИспрКСчФ", "ДатаИспрКСчФ", ';'));
                 res.Add("ОКВ".AsAttr(data.ValSecond(Map09.НаимИКодВалюты, ';').AsDec()));
                 res.Add("СтоимПродСФВ".AsAttr(data.AsDec(Map09.СтоимПродВВалютеСФ)));
                 res.Add("СтоимПродСФ".AsAttr(data.AsDec(Map09.СтоимПродВРублях)));
@@ -300,17 +300,17 @@ namespace Core.Model
                 res.Clear();
                 res.Add($"<{map10.TagLine}");
                 res.Add("НомерПор".AsAttr(GetNumberLine()));
-                res.Add(data[Map10.НомерИДатаСФ]?.ToString().AsAttrDocNumDate("НомСчФПрод", "ДатаСчФПрод"));
-                res.Add(data[Map10.НомерИДатаИспрСФ]?.ToString().AsAttrDocNumDate("НомИспрСчФ", "ДатаИспрСчФ"));
-                res.Add(data[Map10.НомерИДатаКоррСФ]?.ToString().AsAttrDocNumDate("НомКСчФПрод", "ДатаКСчФПрод"));
-                res.Add(data[Map10.НомерИДатаИспрКоррСФ]?.ToString().AsAttrDocNumDate("НомИспрКСчФ", "ДатаИспрКСчФ"));
+                res.Add(data.AsAttrDocNumDate(Map10.НомерИДатаСФ, "НомСчФПрод", "ДатаСчФПрод"));
+                res.Add(data.AsAttrDocNumDate(Map10.НомерИДатаИспрСФ, "НомИспрСчФ", "ДатаИспрСчФ"));
+                res.Add(data.AsAttrDocNumDate(Map10.НомерИДатаКоррСФ, "НомКСчФПрод", "ДатаКСчФПрод"));
+                res.Add(data.AsAttrDocNumDate(Map10.НомерИДатаИспрКоррСФ, "НомИспрКСчФ", "ДатаИспрКСчФ"));
                 res.Add($">");                
 
                 res.Add("КодВидОпер".AsSingleTag(data[Map10.КодВидОпер]));
                 res.Add(GenerateSved("СвПокуп", data, Map10.ИннКппПокуп));
 
                 res.Add($"<СвСчФОтПрод");                
-                res.Add(data[Map10.ПосредНомерИДатаСФОтПрод]?.ToString().AsAttrDocNumDate("НомСчФОтПрод", "ДатаСчФОтПрод"));
+                res.Add(data.AsAttrDocNumDate(Map10.ПосредНомерИДатаСФОтПрод, "НомСчФОтПрод", "ДатаСчФОтПрод"));
                 res.Add("СтоимТовСчФВс".AsAttr(data.AsDec(Map10.СтоимПоСФ)));
                 res.Add("СумНДССчФ".AsAttr(data.AsDec(Map10.СтоимНДС)));
                 res.Add("РазСтКСчФУм".AsAttr(data.AsDec(Map10.РазницаВклНДСУменьшение)));
@@ -342,10 +342,10 @@ namespace Core.Model
                 res.Clear();
                 res.Add($"<{map11.TagLine}");
                 res.Add("НомерПор".AsAttr(GetNumberLine()));
-                res.Add(data[Map11.НомерИДатаСФ]?.ToString().AsAttrDocNumDate("НомСчФПрод", "ДатаСчФПрод"));
-                res.Add(data[Map11.НомерИДатаИспрСФ]?.ToString().AsAttrDocNumDate("НомИспрСчФ", "ДатаИспрСчФ"));
-                res.Add(data[Map11.НомерИДатаКоррСФ]?.ToString().AsAttrDocNumDate("НомКСчФПрод", "ДатаКСчФПрод"));
-                res.Add(data[Map11.НомерИДатаИспрКоррСФ]?.ToString().AsAttrDocNumDate("НомИспрКСчФ", "ДатаИспрКСчФ"));
+                res.Add(data.AsAttrDocNumDate(Map11.НомерИДатаСФ, "НомСчФПрод", "ДатаСчФПрод"));
+                res.Add(data.AsAttrDocNumDate(Map11.НомерИДатаИспрСФ, "НомИспрСчФ", "ДатаИспрСчФ"));
+                res.Add(data.AsAttrDocNumDate(Map11.НомерИДатаКоррСФ, "НомКСчФПрод", "ДатаКСчФПрод"));
+                res.Add(data.AsAttrDocNumDate(Map11.НомерИДатаИспрКоррСФ, "НомИспрКСчФ", "ДатаИспрКСчФ"));
                 res.Add("КодВидСд".AsAttr(data[Map11.КодВидСделки]?.ToString()));
                 res.Add("СтоимТовСчФВс".AsAttr(data.AsDec(Map11.СтоимПоСФ)));
                 res.Add("СумНДССчФ".AsAttr(data.AsDec(Map11.СтоимНДС)));

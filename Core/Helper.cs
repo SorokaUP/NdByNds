@@ -176,8 +176,13 @@ namespace Core
         /// <param name="docDateTagName">Имя Тэга даты документа</param>
         /// <param name="delimiter">Разделитель</param>
         /// <returns></returns>
-        public static string AsAttrDocNumDate(this string value, string docNumTagName, string docDateTagName, char delimiter = ';')
+        public static string AsAttrDocNumDate(this object[] data, byte column, string docNumTagName, string docDateTagName, char delimiter = ';')
         {
+            object ovalue = data[column];
+            if (ovalue == null)
+                return null;
+
+            string value = ovalue.ToString();
             if (string.IsNullOrEmpty(value))
                 return null;
 
