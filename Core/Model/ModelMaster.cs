@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ExcelDataReader;
+using System;
+using System.IO;
 using System.Text;
 using System.Xml;
 
@@ -11,12 +13,13 @@ namespace Core.Model
         public byte correctNum;
         public string versionName;
         protected long numberLine;
-        public delegate string DGetBodyBook(object[] data);
+        protected delegate string DGetBodyBook(object[] data);
         protected IMap map08;
         protected IMap map09;
         protected IMap map10;
         protected IMap map11;
-        public int LineStartReadExcel;
+        public int NumberLineStartReadExcel;
+        protected StringBuilder res;
 
         /// <summary>
         /// Формат СБИС
@@ -36,64 +39,65 @@ namespace Core.Model
             this.map10 = map10;
             this.map11 = map11;
 
-            this.LineStartReadExcel = GetLineStartReadExcel();            
+            this.NumberLineStartReadExcel = GetNumberLineStartReadExcel();
         }
 
-        private int GetLineStartReadExcel()
+        #region Помощники в работе с номерами строк
+        /// <summary>
+        /// Получить номер налача считывания строк данных в Excel файле
+        /// </summary>
+        /// <returns>Номер строки начиная с 1</returns>
+        private int GetNumberLineStartReadExcel()
         {
             switch (bookType)
             {
                 case BookType.Book08:
-                    return map08.LineStartReadExcel;
+                    return map08.NumberLineStartReadExcel;
 
                 case BookType.Book09:
-                    return map09.LineStartReadExcel;
+                    return map09.NumberLineStartReadExcel;
 
                 case BookType.Book10:
-                    return map10.LineStartReadExcel;
+                    return map10.NumberLineStartReadExcel;
 
                 case BookType.Book11:
-                    return map11.LineStartReadExcel;
+                    return map11.NumberLineStartReadExcel;
 
                 default:
                     return 0;
             }
         }
-
-        public DGetBodyBook GetBodyBook()
-        {
-            switch (bookType)
-            {
-                case BookType.Book08:
-                    return GetBodyBook08;
-
-                case BookType.Book09:
-                    return GetBodyBook09;
-
-                case BookType.Book10:
-                    return GetBodyBook10;
-
-                case BookType.Book11:
-                    return GetBodyBook11;
-
-                default:
-                    return null;
-            }
-        }
-
+        /// <summary>
+        /// Проверка заполненности полей начала считывания строк данных для всех видов книг/журналов
+        /// </summary>
         public bool CheckNumberLineValues()
         {
-            return !(map08.LineStartReadExcel < 0 ||
-                map09.LineStartReadExcel < 0 ||
-                map10.LineStartReadExcel < 0 ||
-                map11.LineStartReadExcel < 0);
+            return !(map08.NumberLineStartReadExcel < 0 ||
+                map09.NumberLineStartReadExcel < 0 ||
+                map10.NumberLineStartReadExcel < 0 ||
+                map11.NumberLineStartReadExcel < 0);
         }
+        /// <summary>
+        /// Генератор нумерации строк для итогового XML файла
+        /// </summary>
         protected long GetNumberLine()
         {
             return numberLine++;
         }
-
+        #endregion
+        #region Формирование шапки и подвала XML файла
+        /// <summary>
+        /// Формирование шапки (начальной части XML файла)
+        /// </summary>
+        /// <returns></returns>
         public abstract string GetHeader();
+        /// <summary>
+        /// Формирование подвала (завершающей части XML файла)
+        /// </summary>
+        public abstract string GetFooter();
+        /// <summary>
+        /// Генератор имени файла
+        /// </summary>
         public virtual string GenFileName()
         {
             #region  Приказ ФНС России от 29.10.2014 N ММВ-7-3/558@ (ред. от 20.12.2016) 
@@ -131,16 +135,42 @@ namespace Core.Model
 
             return R_T_ + A_K_ + O_ + GGGGMMDD_ + N;
         }
+        /// <summary>
+        /// Генератор индекса книги/журнала
+        /// </summary>
         protected virtual string GenBookIndex()
         {
             return $"0000{((int)bookType).ToString().PadLeft(2, '0')}0";
         }
-
+        #endregion
+        #region Обработчики формирования тела книги/журнала
+        /// <summary>
+        /// Обработчик формирования XML тела Книги покупок
+        /// </summary>
+        /// <param name="data">Набор данных строки Excel файла</param>
         public abstract string GetBodyBook08(object[] data);
+        /// <summary>
+        /// Обработчик формирования XML тела Книги продаж
+        /// </summary>
+        /// <param name="data">Набор данных строки Excel файла</param>
         public abstract string GetBodyBook09(object[] data);
+        /// <summary>
+        /// Обработчик формирования XML тела Журнала выставленных счетов-фактур
+        /// </summary>
+        /// <param name="data">Набор данных строки Excel файла</param>
         public abstract string GetBodyBook10(object[] data);
+        /// <summary>
+        /// Обработчик формирования XML тела Журнала полученных счетов-фактур
+        /// </summary>
+        /// <param name="data">Набор данных строки Excel файла</param>
         public abstract string GetBodyBook11(object[] data);
-        public abstract string GetFooter();
+        #endregion
+
+        #region Валидация
+        /// <summary>
+        /// Проверка XML файла по XSD схеме по версии СБИС
+        /// </summary>
+        /// <param name="pathXml">Путь к XML файлу</param>
         public virtual bool Validate(string pathXml)
         {
             string pathXsd = "";
@@ -169,11 +199,15 @@ namespace Core.Model
                 PathXsd = pathXsd
             }.Validate();
         }
-               
-
+        #endregion
+        #region Подсчет сумм по XML файлу
+        /// <summary>
+        /// Подсчет сумм по XML файлу
+        /// </summary>
+        /// <param name="pathXml">Путь к XML файлу</param>
         public virtual void Summary(string pathXml)
         {
-            string s = "";
+            string s;
             try
             {
                 s = $"Начало рассчета данных...";
@@ -228,7 +262,13 @@ namespace Core.Model
                 Console.WriteLine($"Сборка мусора окончена");
             }
         }
-        protected static void SummaryProcess(string pathXml, string mainField, string[] attributes)
+        /// <summary>
+        /// Обработчик подсчета сумм по XML файлу
+        /// </summary>
+        /// <param name="pathXml">Путь к XML файлу</param>
+        /// <param name="mainField">Тэг в котором находятся атрибуты с суммами</param>
+        /// <param name="attributes">Атрибуты с суммами</param>
+        private static void SummaryProcess(string pathXml, string mainField, string[] attributes)
         {
             StringBuilder res = new StringBuilder();
             try
@@ -284,9 +324,153 @@ namespace Core.Model
 
             Console.WriteLine(Environment.NewLine + res.ToString());
             Helper.callback?.OnMessage(res.ToString());
-        }        
+        }
+        #endregion
+        #region Конвертация файлов Excel в XML
+        /// <summary>
+        /// Получить обработчик тела книги/журнала
+        /// </summary>
+        protected DGetBodyBook GetBodyBook()
+        {
+            switch (bookType)
+            {
+                case BookType.Book08:
+                    return GetBodyBook08;
+
+                case BookType.Book09:
+                    return GetBodyBook09;
+
+                case BookType.Book10:
+                    return GetBodyBook10;
+
+                case BookType.Book11:
+                    return GetBodyBook11;
+
+                default:
+                    return null;
+            }
+        }
+        /// <summary>
+        /// Конвертор фалов Excel в XML по версии структуры СБИС
+        /// </summary>
+        /// <param name="modeType">Режим работы</param>
+        /// <param name="model">Модель данных</param>
+        /// <param name="importFilePaths">Пути к файлам Excel</param>
+        /// <param name="pathSaveFile">Путь для сохранения результатов</param>
+        public static void ExcelToXml(ModelMaster model, string[] filePaths, string pathSaveFile)
+        {
+            if (!model.CheckNumberLineValues())
+            {
+                Helper.Log($"Версия модели {model.versionName} содержит не верные номера начала считывания строк.");
+                return;
+            }
+
+            string filePath = $@"{pathSaveFile}\{model.fileName}.xml";
+            StreamWriter xml = new StreamWriter(filePath);//, false, Encoding.GetEncoding("Windows-1251"));
+
+            Helper.Log($"Создан файл: {filePath}");
+            try
+            {
+                Helper.Log($"Запись шапки");
+                xml.WriteLine(model.GetHeader());
+                Helper.Log($"Начало считывания строк данных...");
+
+                DateTime startJob = DateTime.Now;
+                model.ExcelToXmlProcess(filePaths, model.GetBodyBook(), model.NumberLineStartReadExcel, xml);
+                TimeSpan TotalTime = DateTime.Now.Subtract(startJob);
+                Helper.Log($"Итоговое время: {TotalTime.TimeFormat()}", LogMode.Успех);
+
+                xml.WriteLine(model.GetFooter());
+            }
+            catch (Exception e)
+            {
+                Helper.Log($"Ошибка на уровне обработки: {e.Message}", LogMode.Ошибка);
+            }
+            finally
+            {
+                Helper.Log($"Сохранение файла...");
+                xml.Close();
+                Helper.Log($"Выполнено");
+
+                xml.Dispose();
+                GC.Collect();
+                Console.WriteLine($"Сборка мусора окончена");
+            }
+        }
+        /// <summary>
+        /// Обработчик файлов Excel в один XML
+        /// </summary>
+        /// <param name="filePaths">Пути к файлам Excel</param>
+        /// <param name="getBodyBook">Ссылка на Метод обработки книги/журнала</param>
+        /// <param name="iLineBegin">Строка начала считывания данных из Excel файла (одинаково для всех выбранных Excel файлов в рамках выбранной книги/журнала)</param>
+        /// <param name="xml">Поток записи в файл XML</param>
+        private void ExcelToXmlProcess(string[] filePaths, DGetBodyBook getBodyBook, int iLineBegin, StreamWriter xml)
+        {
+            //Открываем по очереди каждый выбранный файл Excel
+            foreach (string filePath in filePaths)
+            {
+                try
+                {
+                    using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
+                    {
+                        Helper.Log($"Открываем Excel файл {filePath}");
+
+                        using (var reader = ExcelReaderFactory.CreateReader(stream))
+                        {
+                            Helper.Log($"Начало считывания. Обнаружено {reader.RowCount} строк данных");
+
+                            //Пропускаем лишние строки, в соответствии с настройками версии и книги
+                            int iLine = 0;
+                            while (reader.Read())
+                            {
+                                iLine++;
+                                if (iLine < iLineBegin)
+                                {
+                                    continue;
+                                }
+
+                                try
+                                {
+                                    //Преобразуем строку данных Excel в массив
+                                    object[] data = new object[reader.FieldCount + 1];
+                                    for (int i = 0; i < reader.FieldCount; i++)
+                                    {
+                                        data[i + 1] = reader.GetValue(i);
+                                    }
+
+                                    //Выполняем обработку строки
+                                    xml.WriteLine(getBodyBook(data));
+
+                                    //Логирование
+                                    if (iLine % Helper.LogLines == 0)
+                                    {
+                                        Helper.Log($"   Считано: {iLine}", LogMode.Сообщение, false);
+                                        Helper.callback?.OnProgress(iLine, reader.RowCount);
+                                    }
+                                }
+                                catch (Exception exReader)
+                                {
+                                    Helper.Log($"Ошибка на уровне чтения строки: {exReader.Message}", LogMode.Ошибка);
+                                }
+                            }
+
+                            //Сообщаем в UI о продвижении
+                            Helper.callback?.OnProgress(reader.RowCount, reader.RowCount);
+                        }
+                    }
+                }
+                catch (Exception exFile)
+                {
+                    Helper.Log($"Ошибка на уровне чтения файла: {exFile.Message}", LogMode.Ошибка);
+                }
+            }
+        }
+        #endregion
     }
 
+    /// <summary>
+    /// Ключевые поля для обработки книги/журнала
+    /// </summary>
     public abstract class IMap
     {
         /// <summary>
@@ -304,7 +488,7 @@ namespace Core.Model
         /// <summary>
         /// Строка начала считывания Excel файла (начиная с 1)
         /// </summary>
-        public abstract int LineStartReadExcel { get; }
+        public abstract int NumberLineStartReadExcel { get; }
         /// <summary>
         /// XML тэг в котором хранятся атрибуты для подсчета сумм
         /// </summary>

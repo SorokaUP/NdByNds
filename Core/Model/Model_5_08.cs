@@ -14,7 +14,7 @@ namespace Core.Model
             public override string Tag { get { return "КнигаПокуп"; } }                
             public override string TagLine { get { return "КнПокСтр"; } }
             public override string PathToFileXSD { get { return @"G:\Work\TaxDeclaration\xsd\8_5.08_Сбис.xsd"; } }
-            public override int LineStartReadExcel { get { return 7; } }
+            public override int NumberLineStartReadExcel { get { return 7; } }
             public override string SumTag { get { return "КнПокСтр"; } }
             public override string[] SumFields { get { return new string[]
                 { "СтоимПокупВ", "СумНДСВыч" }; } }
@@ -45,7 +45,7 @@ namespace Core.Model
             public override string Tag { get { return "КнигаПрод"; } }
             public override string TagLine { get { return "КнПродСтр"; } }
             public override string PathToFileXSD { get { return @"G:\Work\TaxDeclaration\xsd\9_5.08_Сбис.xsd"; } }
-            public override int LineStartReadExcel { get { return 7; } }
+            public override int NumberLineStartReadExcel { get { return 7; } }
             public override string SumTag { get { return "КнПродСтр"; } }
             public override string[] SumFields { get { return new string[]
                 { "СтоимПродСФВ", "СтоимПродСФ", "СтоимПродСФ20", "СтоимПродСФ18", "СтоимПродСФ10", "СтоимПродСФ0", "СумНДССФ20", "СумНДССФ18", "СумНДССФ10", "СтоимПродОсв" }; } }
@@ -84,7 +84,7 @@ namespace Core.Model
             public override string Tag { get { return "ЖУчВыстСчФ"; } }
             public override string TagLine { get { return "ЖУчВыстСчФСтр"; } }
             public override string PathToFileXSD { get { return @"G:\Work\TaxDeclaration\xsd\10_5.08_Сбис.xsd"; } }
-            public override int LineStartReadExcel { get { return 6; } }
+            public override int NumberLineStartReadExcel { get { return 6; } }
             public override string SumTag { get { return "СвСчФОтПрод"; } }
             public override string[] SumFields { get { return new string[]
                 { "СтоимТовСчФВс", "СумНДССчФ", "РазСтКСчФУм", "РазСтКСчФУв", "РазНДСКСчФУм", "РазНДСКСчФУв" }; } }
@@ -118,7 +118,7 @@ namespace Core.Model
             public override string Tag { get { return "ЖУчПолучСчФ"; } }
             public override string TagLine { get { return "ЖУчПолучСчФСтр"; } }
             public override string PathToFileXSD { get { return @"G:\Work\TaxDeclaration\xsd\11_5.08_Сбис.xsd"; } }
-            public override int LineStartReadExcel { get { return 6; } }
+            public override int NumberLineStartReadExcel { get { return 6; } }
             public override string SumTag { get { return "ЖУчПолучСчФСтр"; } }
             public override string[] SumFields { get { return new string[]
                 { "СтоимТовСчФВс", "СумНДССчФ", "РазСтКСчФУм", "РазСтКСчФУв", "РазНДСКСчФУм", "РазНДСКСчФУв" }; } }
@@ -145,7 +145,6 @@ namespace Core.Model
         }
         #endregion
 
-        StringBuilder res;
         public Model_5_08(BookType bookType, byte correctNum) 
             : base(bookType, correctNum, "5.08", new Map08(), new Map09(), new Map10(), new Map11())
         {
@@ -217,14 +216,14 @@ namespace Core.Model
         private void CheckAndEditBook08(ref object[] data)
         {
             // При КОД ОПЕРАЦИИ 18 - должны быть заполнены графы 3 и 5
-            if (data[Map08.КодВидОпер]?.ToString().Trim() == "18")
+            if ((data[Map08.КодВидОпер]?.ToString().Trim()).Equals("18"))
             {
                 string dataSf = data[Map08.НомерИДатаСФПрод]?.ToString();
                 string dataCorrSf = data[Map08.НомерИДатаКоррСФПрод]?.ToString();
 
-                if (dataSf == "" && dataCorrSf != "")
+                if (string.IsNullOrEmpty(dataSf) && !string.IsNullOrEmpty(dataCorrSf))
                     data[Map08.НомерИДатаСФПрод] = dataCorrSf;
-                if (dataSf != "" && dataCorrSf == "")
+                if (!string.IsNullOrEmpty(dataSf) && string.IsNullOrEmpty(dataCorrSf))
                     data[Map08.НомерИДатаКоррСФПрод] = dataSf;
             }
         }
@@ -276,18 +275,18 @@ namespace Core.Model
         private void CheckAndEditBook09(ref object[] data)
         {
             // При КОД ОПЕРАЦИИ 18 - должны быть заполнены графы 3 и 7
-            if (data[Map09.НомерИДатаСФПрод]?.ToString()[0] == '-')
+            if ((data[Map09.НомерИДатаСФПрод]?.ToString()[0]).Equals('-'))
             {
                 data[Map09.НомерИДатаСФПрод] = "0000" + data[Map09.НомерИДатаСФПрод];
             }
-            if (data[Map09.КодВидОпер]?.ToString().Trim() == "18")
+            if ((data[Map09.КодВидОпер]?.ToString().Trim()).Equals("18"))
             {
                 string dataSf = data[Map09.НомерИДатаСФПрод]?.ToString();
                 string dataCorrSf = data[Map09.НомерИДатаКоррСФПрод]?.ToString();
 
-                if (dataSf == "" && dataCorrSf != "")
+                if (string.IsNullOrEmpty(dataSf) && !string.IsNullOrEmpty(dataCorrSf))
                     data[Map09.НомерИДатаСФПрод] = dataCorrSf;
-                if (dataSf != "" && dataCorrSf == "")
+                if (!string.IsNullOrEmpty(dataSf) && string.IsNullOrEmpty(dataCorrSf))
                     data[Map09.НомерИДатаКоррСФПрод] = dataSf;
             }
         }
@@ -387,10 +386,10 @@ namespace Core.Model
             {
                 string[] arr = data[i].ToString().Split('/');
                 string inn = arr?[0];
-                string s = "";
+                string s;
                 if (inn != null)
                 {
-                    if (inn.Length == 10 && arr.Length > 1)
+                    if (inn.Length.Equals(10) && arr.Length > 1)
                     {
                         s = $"<СведЮЛ {"ИННЮЛ".AsAttr(inn ?? "")} {"КПП".AsAttr(arr[1] ?? "")} />";
                     }

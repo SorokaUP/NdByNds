@@ -10,7 +10,7 @@ namespace Core
         public const string ИсправлениеДаты = " от ";
         public const byte DEGREE = 2;
 
-        private static Regex regexGTD = new Regex("^((\\;)?([0-9]{8}\\/[0-9]{6}\\/[0-9]{7}(\\/[0-9]{1,2})?))*$");
+        private static readonly Regex regexGTD = new Regex("^((\\;)?([0-9]{8}\\/[0-9]{6}\\/[0-9]{7}(\\/[0-9]{1,2})?))*$");
         public const int LogLines = 10000;
 
         /// <summary>
@@ -94,8 +94,8 @@ namespace Core
             object x = data[column];
             if (x == null)
                 return "0";
-            if (x is double)
-                return ((double)x).AsString(degree);
+            if (x is double @double)
+                return @double.AsString(degree);
 
             string s = data[column]?.ToString();
             if (string.IsNullOrEmpty(s))
@@ -115,7 +115,7 @@ namespace Core
             if (string.IsNullOrEmpty(s))
                 return "0";
 
-            string res = "";
+            string res;
             try
             {
                 s = s.Replace('.', ',').Replace(' ', '\0');
@@ -152,7 +152,7 @@ namespace Core
                 return 0;
 
             s = s.Replace(".", ",").Replace(" ", "");
-            if (!char.IsNumber(s[0]) && ((s[0] == '-') && (s.Length == 1)))
+            if (!char.IsNumber(s[0]) && ((s[0].Equals('-')) && (s.Length.Equals(1))))
                 return 0;
 
             try
@@ -241,7 +241,7 @@ namespace Core
             {
                 switch ((ModeType)Enum.Parse(typeof(ModeType), val.ToString()))
                 {
-                    case ModeType.CheckSum:
+                    case ModeType.Summary:
                         return "Подсчет сумм XML файла";
 
                     case ModeType.ExcelToXml:
