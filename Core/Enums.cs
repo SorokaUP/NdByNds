@@ -40,7 +40,7 @@
     public enum ModeType
     {
         ExcelToXml,
-        CheckSum,
+        Summary,
         Validate
     }
 

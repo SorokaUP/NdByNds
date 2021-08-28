@@ -27,21 +27,24 @@ namespace Core
 
         private void ValidationCallBack(object sender, ValidationEventArgs e)
         {
-            Console.ForegroundColor = (e.Severity.ToString() == "Error") ? ConsoleColor.Red : ConsoleColor.DarkYellow;
-            Helper.Log($"  {e.Severity.ToString()}: {e.Message}", LogMode.Ошибка);
+            Console.ForegroundColor = (e.Severity.ToString().Equals("Error")) ? ConsoleColor.Red : ConsoleColor.DarkYellow;
+            Helper.Log($"  {e.Severity}: {e.Message}", LogMode.Ошибка);
             Console.ResetColor();
             errQnt++;
         }
 
         int errQnt = 0;
 
+        /// <summary>
+        /// Выполнить проверку XML по XSD схеме
+        /// </summary>
         public bool Validate()
         {
             XmlDocument xsdDoc = new XmlDocument();
             XmlSchemaSet xsdSchema = new XmlSchemaSet();
 
             try
-            {   //Чтение XSD из файла
+            {   
                 Helper.Log("Загрузка XSD файла");
                 xsdDoc.Load(PathXsd);
                 //Формирование XSD DOM

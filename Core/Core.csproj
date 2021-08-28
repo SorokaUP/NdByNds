@@ -54,6 +54,7 @@
     <Compile Include="Core.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="Model\ModelMapper.cs" />
     <Compile Include="Model\ModelMaster.cs" />
     <Compile Include="ICallback.cs" />
     <Compile Include="Model\Model_5_08.cs" />
