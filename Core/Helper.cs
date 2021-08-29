@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Core
@@ -9,6 +10,7 @@ namespace Core
         public static Model.ICallback callback = null;
         public const string ИсправлениеДаты = " от ";
         public const byte DEGREE = 2;
+        private static readonly string[] NUM_ZERO = { "0", "0.00" };
 
         private static readonly Regex regexGTD = new Regex("^((\\;)?([0-9]{8}\\/[0-9]{6}\\/[0-9]{7}(\\/[0-9]{1,2})?))*$");
         public const int LogLines = 10000;
@@ -27,11 +29,11 @@ namespace Core
         /// <param name="value">Значение атрибута</param>
         /// <param name="feature">Признак обязательности</param>
         /// <returns></returns>
-        public static string AsAttr(this string name, object value, Feature feature = Feature.Обязательно)
+        public static string AsAttr(this string name, object value, Feature feature = Feature.О)
         {
-            return feature is Feature.Обязательно
+            return feature is Feature.О
                 ? $" {name}=\"{(value ?? "").ToString().Trim()}\""
-                : string.IsNullOrEmpty(value.ToString().Trim())
+                : string.IsNullOrEmpty(value?.ToString().Trim()) || NUM_ZERO.Contains(value?.ToString() ?? "0")
                     ? null
                     : $" {name}=\"{(value ?? "").ToString().Trim()}\"";
         }
@@ -42,11 +44,11 @@ namespace Core
         /// <param name="value">Значение</param>
         /// <param name="feature">Признак обязательности</param>
         /// <returns></returns>
-        public static string AsSingleTag(this string name, object value, Feature feature = Feature.Обязательно)
+        public static string AsSingleTag(this string name, object value, Feature feature = Feature.О)
         {
-            return feature is Feature.Обязательно
+            return feature is Feature.О
                 ? $"<{name}>{(value ?? "").ToString().Trim()}</{name}>"
-                : string.IsNullOrEmpty(value.ToString().Trim())
+                : string.IsNullOrEmpty(value?.ToString().Trim())
                     ? null
                     : $"<{name}>{(value ?? "").ToString().Trim()}</{name}>";
         }
@@ -186,9 +188,8 @@ namespace Core
             if (string.IsNullOrEmpty(value))
                 return null;
 
+            value = value.Replace(ИсправлениеДаты, delimiter.ToString());
             value = value.ClearTrash().Replace(" ", "");
-            if (value.Contains(ИсправлениеДаты))
-                value = value.Replace(ИсправлениеДаты, delimiter.ToString());
 
             string[] arr = value.Split(delimiter);
             if (arr.Length < 1)

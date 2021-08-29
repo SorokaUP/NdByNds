@@ -49,8 +49,8 @@
     /// </summary>
     public enum Feature
     {
-        Обязательно,
-        НеОбязательно
+        О,
+        Н
     }
 
     /// <summary>

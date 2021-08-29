@@ -63,6 +63,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="XSD\5_08__08.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD\5_08__09.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD\5_08__10.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD\5_08__11.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

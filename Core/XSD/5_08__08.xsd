@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="WINDOWS-1251" ?>
+<!-- created by  Sbis 3.0 -->
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xmlns:usch="http://www.unisoftware.ru/schematron-extensions" xmlns:xs="http://www.w3.org/2001/XMLSchema">                                    
+
+  <xs:element name="Файл">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="1" minOccurs="1" name="Документ">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="1" minOccurs="0" name="КнигаПокуп">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="unbounded" minOccurs="1" name="КнПокСтр">
+                      <xs:annotation>
+                        <xs:appinfo>
+                          <sch:pattern>
+                            <sch:rule>
+                              <sch:assert test="@ДатаСчФПрод or (КодВидОпер = '20' and count(КодВидОпер) = 1)">
+                                <usch:error>0001.600.160.57</usch:error>
+                              </sch:assert>
+                            </sch:rule>
+                          </sch:pattern>
+                        </xs:appinfo>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="2" minOccurs="1" name="КодВидОпер">
+                            <xs:annotation>
+                              <xs:appinfo>
+                                <sch:pattern>
+                                  <sch:rule>
+                                    <sch:assert test="not(../СвПрод) or (. != '19' and . != '20' and . != '27' and . != '28')">
+                                      <usch:error>0001.600.160.63</usch:error>
+                                    </sch:assert>
+                                  </sch:rule>
+                                </sch:pattern>
+                              </xs:appinfo>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element maxOccurs="unbounded" minOccurs="0" name="ДокПдтвУпл">
+                            <xs:complexType>
+                              <xs:attribute name="НомДокПдтвУпл" use="required">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string">
+                                    <xs:minLength value="1"/>
+                                    <xs:maxLength value="256"/>
+                                  </xs:restriction>
+                                </xs:simpleType>
+                              </xs:attribute>
+                              <xs:attribute name="ДатаДокПдтвУпл" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>Дата в формате ДД.ММ.ГГГГ</xs:documentation>
+                                </xs:annotation>
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string">
+                                    <xs:maxLength value="10"/>
+                                    <xs:minLength value="10"/>
+                                    <xs:pattern value="[0-9\-\.]{4,10}"/>
+                                  </xs:restriction>
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element maxOccurs="unbounded" minOccurs="0" name="ДатаУчТов"/>
+                          <xs:element maxOccurs="unbounded" minOccurs="0" name="СвПрод">
+                            <xs:annotation>
+                              <xs:appinfo>
+                                <sch:pattern>
+                                  <sch:rule>
+                                    <sch:assert test="count(КодВидОпер[text()='01']) > 0 or count(КодВидОпер[text()='02']) > 0 or count(КодВидОпер[text()='13']) > 0 or count(КодВидОпер[text()='15']) > 0 or count(КодВидОпер[text()='16']) > 0 or count(КодВидОпер[text()='17']) > 0 or count(КодВидОпер[text()='18']) > 0 or count(КодВидОпер[text()='22']) > 0 or count(КодВидОпер[text()='24']) > 0 or count(КодВидОпер[text()='25']) > 0 or count(КодВидОпер[text()='26']) > 0 or count(КодВидОпер[text()='32']) > 0 or count(КодВидОпер[text()='34']) > 0 or count(КодВидОпер[text()='36']) > 0 or count(КодВидОпер[text()='41']) > 0 or count(КодВидОпер[text()='42']) > 0 or count(КодВидОпер[text()='43']) > 0 or count(КодВидОпер[text()='44']) > 0 or count(КодВидОпер[text()='45']) > 0">
+                                      <usch:error>0001.950.498</usch:error>
+                                    </sch:assert>
+                                  </sch:rule>
+                                </sch:pattern>
+                              </xs:appinfo>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:choice>
+                                  <xs:element maxOccurs="1" minOccurs="1" name="СведЮЛ">
+                                    <xs:complexType>
+                                      <xs:attribute name="ИННЮЛ" use="required">
+                                        <xs:simpleType>
+                                          <xs:restriction base="xs:string">
+                                            <xs:minLength value="10"/>
+                                            <xs:maxLength value="10"/>
+                                            <xs:pattern value="([0-9]{1}[1-9]{1}|[1-9]{1}[0-9]{1})[0-9]{8}"/>
+                                          </xs:restriction>
+                                        </xs:simpleType>
+                                      </xs:attribute>
+                                      <xs:attribute name="КПП" use="required">
+                                        <xs:simpleType>
+                                          <xs:restriction base="xs:string">
+                                            <xs:minLength value="9"/>
+                                            <xs:maxLength value="9"/>
+                                            <xs:pattern value="(([0-9]{1}[1-9]{1}|[1-9]{1}[0-9]{1})([0-9]{2})([0-9A-Z]{2})([0-9]{3}))"/>
+                                          </xs:restriction>
+                                        </xs:simpleType>
+                                      </xs:attribute>
+                                    </xs:complexType>
+                                  </xs:element>
+                                  <xs:element maxOccurs="1" minOccurs="1" name="СведИП">
+                                    <xs:complexType>
+                                      <xs:attribute name="ИННФЛ" use="required">
+                                        <xs:simpleType>
+                                          <xs:restriction base="xs:string">
+                                            <xs:minLength value="12"/>
+                                            <xs:maxLength value="12"/>
+                                            <xs:pattern value="([0-9]{1}[1-9]{1}|[1-9]{1}[0-9]{1})[0-9]{10}"/>
+                                          </xs:restriction>
+                                        </xs:simpleType>
+                                      </xs:attribute>
+                                    </xs:complexType>
+                                  </xs:element>
+                                </xs:choice>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element maxOccurs="1" minOccurs="0" name="СвПос">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:choice>
+                                  <xs:element maxOccurs="1" minOccurs="1" name="СведЮЛ">
+                                    <xs:complexType>
+                                      <xs:attribute name="ИННЮЛ" use="required">
+                                        <xs:simpleType>
+                                          <xs:restriction base="xs:string">
+                                            <xs:minLength value="10"/>
+                                            <xs:maxLength value="10"/>
+                                            <xs:pattern value="([0-9]{1}[1-9]{1}|[1-9]{1}[0-9]{1})[0-9]{8}"/>
+                                          </xs:restriction>
+                                        </xs:simpleType>
+                                      </xs:attribute>
+                                      <xs:attribute name="КПП" use="required">
+                                        <xs:simpleType>
+                                          <xs:restriction base="xs:string">
+                                            <xs:minLength value="9"/>
+                                            <xs:maxLength value="9"/>
+                                            <xs:pattern value="(([0-9]{1}[1-9]{1}|[1-9]{1}[0-9]{1})([0-9]{2})([0-9A-Z]{2})([0-9]{3}))"/>
+                                          </xs:restriction>
+                                        </xs:simpleType>
+                                      </xs:attribute>
+                                    </xs:complexType>
+                                  </xs:element>
+                                  <xs:element maxOccurs="1" minOccurs="1" name="СведИП">
+                                    <xs:complexType>
+                                      <xs:attribute name="ИННФЛ" use="required">
+                                        <xs:simpleType>
+                                          <xs:restriction base="xs:string">
+                                            <xs:minLength value="12"/>
+                                            <xs:maxLength value="12"/>
+                                            <xs:pattern value="([0-9]{1}[1-9]{1}|[1-9]{1}[0-9]{1})[0-9]{10}"/>
+                                          </xs:restriction>
+                                        </xs:simpleType>
+                                      </xs:attribute>
+                                    </xs:complexType>
+                                  </xs:element>
+                                </xs:choice>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element maxOccurs="unbounded" minOccurs="0" name="СвРегНом">
+                            <xs:complexType>
+                              <xs:attribute name="РегНомПросл" use="required">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string">
+                                    <xs:minLength value="13"/>
+                                    <xs:maxLength value="29"/>
+                                  </xs:restriction>
+                                </xs:simpleType>
+                              </xs:attribute>
+                              <xs:attribute name="ОКЕИ" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string">
+                                    <xs:minLength value="3"/>
+                                    <xs:maxLength value="4"/>
+                                    <xs:pattern value="([0-9]{3})|([0-9]{4})"/>
+                                  </xs:restriction>
+                                </xs:simpleType>
+                              </xs:attribute>
+                              <xs:attribute name="КолТовПросл" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:integer">
+                                    <xs:totalDigits value="10"/>
+                                  </xs:restriction>
+                                </xs:simpleType>
+                              </xs:attribute>
+                              <xs:attribute name="СтоимТовПросл" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:decimal">
+                                    <xs:totalDigits value="17"/>
+                                    <xs:fractionDigits value="0"/>
+                                  </xs:restriction>
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="НомерПор" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:integer">
+                              <xs:totalDigits value="12"/>
+                              <xs:minInclusive value="1"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="НомСчФПрод" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:minLength value="1"/>
+                              <xs:maxLength value="1000"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="ДатаСчФПрод" use="optional">
+                          <xs:annotation>
+                            <xs:documentation>Дата в формате ДД.ММ.ГГГГ</xs:documentation>
+                          </xs:annotation>
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:maxLength value="10"/>
+                              <xs:minLength value="10"/>
+                              <xs:pattern value="[0-9\-\.]{4,10}"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="НомИспрСчФ" use="optional">
+                          <xs:annotation>
+                            <xs:appinfo>
+                              <sch:pattern>
+                                <sch:rule>
+                                  <sch:assert test="@ДатаИспрСчФ"/>
+                                </sch:rule>
+                              </sch:pattern>
+                            </xs:appinfo>
+                          </xs:annotation>
+                          <xs:simpleType>
+                            <xs:restriction base="xs:integer">
+                              <xs:totalDigits value="3"/>
+                              <xs:minInclusive value="1"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="ДатаИспрСчФ" use="optional">
+                          <xs:annotation>
+                            <xs:documentation>Дата в формате ДД.ММ.ГГГГ</xs:documentation>
+                            <xs:appinfo>
+                              <sch:pattern>
+                                <sch:rule>
+                                  <sch:assert test="@НомИспрСчФ"/>
+                                </sch:rule>
+                              </sch:pattern>
+                            </xs:appinfo>
+                          </xs:annotation>
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:maxLength value="10"/>
+                              <xs:minLength value="10"/>
+                              <xs:pattern value="[0-9\-\.]{4,10}"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="НомКСчФПрод" use="optional">
+                          <xs:annotation>
+                            <xs:appinfo>
+                              <sch:pattern>
+                                <sch:rule>
+                                  <sch:assert test="@ДатаКСчФПрод or @НомИспрКСчФ or @ДатаИспрКСчФ"/>
+                                </sch:rule>
+                              </sch:pattern>
+                            </xs:appinfo>
+                          </xs:annotation>
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:minLength value="1"/>
+                              <xs:maxLength value="256"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="ДатаКСчФПрод" use="optional">
+                          <xs:annotation>
+                            <xs:documentation>Дата в формате ДД.ММ.ГГГГ</xs:documentation>
+                            <xs:appinfo>
+                              <sch:pattern>
+                                <sch:rule>
+                                  <sch:assert test="@НомКСчФПрод or @НомИспрКСчФ or @ДатаИспрКСчФ"/>
+                                </sch:rule>
+                              </sch:pattern>
+                            </xs:appinfo>
+                          </xs:annotation>
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:maxLength value="10"/>
+                              <xs:minLength value="10"/>
+                              <xs:pattern value="[0-9\-\.]{4,10}"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="НомИспрКСчФ" use="optional">
+                          <xs:annotation>
+                            <xs:appinfo>
+                              <sch:pattern>
+                                <sch:rule>
+                                  <sch:assert test="@ДатаИспрКСчФ"/>
+                                </sch:rule>
+                              </sch:pattern>
+                            </xs:appinfo>
+                          </xs:annotation>
+                          <xs:simpleType>
+                            <xs:restriction base="xs:integer">
+                              <xs:totalDigits value="3"/>
+                              <xs:minInclusive value="1"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="ДатаИспрКСчФ" use="optional">
+                          <xs:annotation>
+                            <xs:documentation>Дата в формате ДД.ММ.ГГГГ</xs:documentation>
+                            <xs:appinfo>
+                              <sch:pattern>
+                                <sch:rule>
+                                  <sch:assert test="@НомИспрКСчФ"/>
+                                </sch:rule>
+                              </sch:pattern>
+                            </xs:appinfo>
+                          </xs:annotation>
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:maxLength value="10"/>
+                              <xs:minLength value="10"/>
+                              <xs:pattern value="[0-9\-\.]{4,10}"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="ОКВ" use="optional">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:minLength value="3"/>
+                              <xs:maxLength value="3"/>
+                              <xs:pattern value="[0-9]{3}"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="СтоимПокупВ" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:decimal">
+                              <xs:totalDigits value="19"/>
+                              <xs:fractionDigits value="2"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="СумНДСВыч" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:decimal">
+                              <xs:totalDigits value="19"/>
+                              <xs:fractionDigits value="2"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="СумНДСВсКПк" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:decimal">
+                        <xs:totalDigits value="19"/>
+                        <xs:fractionDigits value="2"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="Индекс" use="required">
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:minLength value="7"/>
+                  <xs:maxLength value="7"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="НомКорр" use="required">
+              <xs:simpleType>
+                <xs:restriction base="xs:integer">
+                  <xs:totalDigits value="3"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="ПризнСвед8" use="optional">
+              <xs:annotation>
+                <xs:appinfo>
+                  <sch:pattern>
+                    <sch:rule>
+                      <sch:assert test="@НомКорр > 0">
+                        <usch:error>0001.950.407</usch:error>
+                      </sch:assert>
+                    </sch:rule>
+                  </sch:pattern>
+                </xs:appinfo>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:minLength value="1"/>
+                  <xs:maxLength value="1"/>
+                  <xs:enumeration value="1"/>
+                  <xs:enumeration value="0"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="ИдФайл" use="required">
+        <xs:annotation>
+          <xs:documentation>Содержит (повторяет) имя сформированного файла (без расширения)</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="255"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="ВерсПрог" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="40"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="ВерсФорм" use="required">
+        <xs:annotation>
+          <xs:documentation>Т(5)</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="5"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

@@ -155,9 +155,9 @@ namespace Core.Model
         public override string GetHeader()
         {
             return (
-                //$"<?xml version=\"1.0\" encoding=\"windows-1251\" ?>" +
+                $"<?xml version=\"1.0\" encoding=\"windows-1251\" ?>" + Environment.NewLine +
                 $"<Файл {"ИдФайл".AsAttr(fileName)} {"ВерсПрог".AsAttr(this.GetType().Name)} {"ВерсФорм".AsAttr(versionName)}>" +
-                $"<Документ {"Индекс".AsAttr(GenBookIndex())} {"НомКорр".AsAttr(correctNum)} {$"ПризнСвед{(int)bookType}".AsAttr("0")}>" +
+                $"<Документ {"Индекс".AsAttr(GenBookIndex())} {"НомКорр".AsAttr(correctNum)}>" +
                 (
                 (bookType is BookType.Book08) ? $"<{map08.Tag} {"СумНДСВсКПк".AsAttr("0")}>" :
                 (bookType is BookType.Book09) ? $"<{map09.Tag}>" :
@@ -198,8 +198,8 @@ namespace Core.Model
                 res.Add($">");
 
                 res.Add("КодВидОпер".AsSingleTag(data[Map08.КодВидОпер]));
-                res.Add(GenerateDocSubmit(data, Map08.НомерИДатаДокПодтвОпл));
-                res.Add("ДатаУчТов".AsSingleTag(data[Map08.ДатаПринятияНаУчетТоваров] ?? "", Feature.НеОбязательно));
+                res.Add(GenerateDocSubmit(data, Map08.НомерИДатаДокПодтвОпл, "Упл"));
+                res.Add("ДатаУчТов".AsSingleTag(data[Map08.ДатаПринятияНаУчетТоваров], Feature.Н));
                 res.Add(GenerateSved("СвПрод", data, Map08.ИннКппПрод));
                 res.Add(GenerateGTD(data, Map08.НомерТаможДекларации));
 
@@ -243,23 +243,23 @@ namespace Core.Model
                 res.Add(data.AsAttrDocNumDate(Map09.НомерИДатаИспрСФПрод, "НомИспрСчФ", "ДатаИспрСчФ", ';'));
                 res.Add(data.AsAttrDocNumDate(Map09.НомерИДатаКоррСФПрод, "НомКСчФПрод", "ДатаКСчФПрод", ';'));
                 res.Add(data.AsAttrDocNumDate(Map09.НомерИДатаИспрКоррСФПрод, "НомИспрКСчФ", "ДатаИспрКСчФ", ';'));
-                res.Add("ОКВ".AsAttr(data.ValSecond(Map09.НаимИКодВалюты, ';').AsDec()));
-                res.Add("СтоимПродСФВ".AsAttr(data.AsDec(Map09.СтоимПродВВалютеСФ)));
-                res.Add("СтоимПродСФ".AsAttr(data.AsDec(Map09.СтоимПродВРублях)));
-                res.Add("СтоимПродСФ20".AsAttr(data.AsDec(Map09.СуммаПродажБезНДС20)));
-                res.Add("СтоимПродСФ18".AsAttr(data.AsDec(Map09.СуммаПродажБезНДС18)));
-                res.Add("СтоимПродСФ10".AsAttr(data.AsDec(Map09.СуммаПродажБезНДС10)));
-                res.Add("СтоимПродСФ0".AsAttr(data.AsDec(Map09.СуммаПродажБезНДС0)));
-                res.Add("СумНДССФ20".AsAttr(data.AsDec(Map09.СуммаНДС20)));
-                res.Add("СумНДССФ18".AsAttr(data.AsDec(Map09.СуммаНДС18)));
-                res.Add("СумНДССФ10".AsAttr(data.AsDec(Map09.СуммаНДС10)));
-                res.Add("СтоимПродОсв".AsAttr(data.AsDec(Map09.СуммаНДС0)));
+                res.Add("ОКВ".AsAttr(data.ValSecond(Map09.НаимИКодВалюты, ';').AsDec(), Feature.Н));
+                res.Add("СтоимПродСФВ".AsAttr(data.AsDec(Map09.СтоимПродВВалютеСФ), Feature.Н));
+                res.Add("СтоимПродСФ".AsAttr(data.AsDec(Map09.СтоимПродВРублях), Feature.Н));
+                res.Add("СтоимПродСФ20".AsAttr(data.AsDec(Map09.СуммаПродажБезНДС20), Feature.Н));
+                res.Add("СтоимПродСФ18".AsAttr(data.AsDec(Map09.СуммаПродажБезНДС18), Feature.Н));
+                res.Add("СтоимПродСФ10".AsAttr(data.AsDec(Map09.СуммаПродажБезНДС10), Feature.Н));
+                res.Add("СтоимПродСФ0".AsAttr(data.AsDec(Map09.СуммаПродажБезНДС0), Feature.Н));
+                res.Add("СумНДССФ20".AsAttr(data.AsDec(Map09.СуммаНДС20), Feature.Н));
+                res.Add("СумНДССФ18".AsAttr(data.AsDec(Map09.СуммаНДС18), Feature.Н));
+                res.Add("СумНДССФ10".AsAttr(data.AsDec(Map09.СуммаНДС10), Feature.Н));
+                res.Add("СтоимПродОсв".AsAttr(data.AsDec(Map09.СуммаНДС0), Feature.Н));
                 res.Add($">");
 
                 res.Add("КодВидОпер".AsSingleTag(data[Map09.КодВидОпер]));
                 res.Add(GenerateGTD(data, Map09.РегНомТаможДекларации));
-                res.Add("КодВидТовар".AsSingleTag(data[Map09.КодВидТовара]));
-                res.Add(GenerateDocSubmit(data, Map09.НомерИДатаДокПодтвОпл));
+                res.Add("КодВидТовар".AsSingleTag(data[Map09.КодВидТовара], Feature.Н));
+                res.Add(GenerateDocSubmit(data, Map09.НомерИДатаДокПодтвОпл, "Опл"));
                 res.Add(GenerateSved("СвПокуп", data, Map09.ИннКппПокуп));
                 res.Add(GenerateSved("СвПос", data, Map09.ИннКппПоср));
                 res.Add($"</{map09.TagLine}>");
@@ -311,12 +311,12 @@ namespace Core.Model
 
                 res.Add($"<СвСчФОтПрод");                
                 res.Add(data.AsAttrDocNumDate(Map10.ПосредНомерИДатаСФОтПрод, "НомСчФОтПрод", "ДатаСчФОтПрод"));
-                res.Add("СтоимТовСчФВс".AsAttr(data.AsDec(Map10.СтоимПоСФ)));
-                res.Add("СумНДССчФ".AsAttr(data.AsDec(Map10.СтоимНДС)));
-                res.Add("РазСтКСчФУм".AsAttr(data.AsDec(Map10.РазницаВклНДСУменьшение)));
-                res.Add("РазСтКСчФУв".AsAttr(data.AsDec(Map10.РазницаВклНДСУвеличение)));
-                res.Add("РазНДСКСчФУм".AsAttr(data.AsDec(Map10.РазницаНДСУменьшение)));
-                res.Add("РазНДСКСчФУв".AsAttr(data.AsDec(Map10.РазницаНДСУвеличение)));
+                res.Add("СтоимТовСчФВс".AsAttr(data.AsDec(Map10.СтоимПоСФ), Feature.Н));
+                res.Add("СумНДССчФ".AsAttr(data.AsDec(Map10.СтоимНДС), Feature.Н));
+                res.Add("РазСтКСчФУм".AsAttr(data.AsDec(Map10.РазницаВклНДСУменьшение), Feature.Н));
+                res.Add("РазСтКСчФУв".AsAttr(data.AsDec(Map10.РазницаВклНДСУвеличение), Feature.Н));
+                res.Add("РазНДСКСчФУм".AsAttr(data.AsDec(Map10.РазницаНДСУменьшение), Feature.Н));
+                res.Add("РазНДСКСчФУв".AsAttr(data.AsDec(Map10.РазницаНДСУвеличение), Feature.Н));
                 res.Add($">");
 
                 res.Add(GenerateSved("СвПрод", data, Map10.ПосредИннКппПрод));
@@ -347,12 +347,12 @@ namespace Core.Model
                 res.Add(data.AsAttrDocNumDate(Map11.НомерИДатаКоррСФ, "НомКСчФПрод", "ДатаКСчФПрод"));
                 res.Add(data.AsAttrDocNumDate(Map11.НомерИДатаИспрКоррСФ, "НомИспрКСчФ", "ДатаИспрКСчФ"));
                 res.Add("КодВидСд".AsAttr(data[Map11.КодВидСделки]?.ToString()));
-                res.Add("СтоимТовСчФВс".AsAttr(data.AsDec(Map11.СтоимПоСФ)));
-                res.Add("СумНДССчФ".AsAttr(data.AsDec(Map11.СтоимНДС)));
-                res.Add("РазСтКСчФУм".AsAttr(data.AsDec(Map11.РазницаВклНДСУменьшение)));
-                res.Add("РазСтКСчФУв".AsAttr(data.AsDec(Map11.РазницаВклНДСУвеличение)));
-                res.Add("РазНДСКСчФУм".AsAttr(data.AsDec(Map11.РазницаНДСУменьшение)));
-                res.Add("РазНДСКСчФУв".AsAttr(data.AsDec(Map11.РазницаНДСУвеличение)));
+                res.Add("СтоимТовСчФВс".AsAttr(data.AsDec(Map11.СтоимПоСФ), Feature.Н));
+                res.Add("СумНДССчФ".AsAttr(data.AsDec(Map11.СтоимНДС), Feature.Н));
+                res.Add("РазСтКСчФУм".AsAttr(data.AsDec(Map11.РазницаВклНДСУменьшение), Feature.Н));
+                res.Add("РазСтКСчФУв".AsAttr(data.AsDec(Map11.РазницаВклНДСУвеличение), Feature.Н));
+                res.Add("РазНДСКСчФУм".AsAttr(data.AsDec(Map11.РазницаНДСУменьшение), Feature.Н));
+                res.Add("РазНДСКСчФУв".AsAttr(data.AsDec(Map11.РазницаНДСУвеличение), Feature.Н));
                 res.Add($">");
 
                 res.Add("КодВидОпер".AsSingleTag(data[Map11.КодВидОпер]));
@@ -387,7 +387,7 @@ namespace Core.Model
                 string[] arr = data[i].ToString().Split('/');
                 string inn = arr?[0];
                 string s;
-                if (inn != null)
+                if (!string.IsNullOrEmpty(inn))
                 {
                     if (inn.Length.Equals(10) && arr.Length > 1)
                     {
@@ -431,7 +431,7 @@ namespace Core.Model
         /// <summary>
         /// Сведения о документе, подтверждающем уплату налога
         /// </summary>
-        private string GenerateDocSubmit(object[] data, byte i)
+        private string GenerateDocSubmit(object[] data, byte i, string suffix)
         {
             //Пример: ПР_2053;15.04.2020,ПР_2255; 23.04.2020,ПР_3185; 26.06.2020
 
@@ -441,12 +441,12 @@ namespace Core.Model
             {
                 foreach (string item in arrOwner)
                 {
-                    string[] arrParent = item.Split(';');
+                    string[] arrParent = item.Replace(Helper.ИсправлениеДаты, ";").Split(';');
                     if (arrParent.Length > 1)
                     {
                         string docNum = arrParent[0].ClearTrash();
                         string docDate = arrParent[1];
-                        res.Add($"<ДокПдтвУпл {"ДатаДокПдтвУпл".AsAttr(docDate)} {"НомДокПдтвУпл".AsAttr(docNum)} />");
+                        res.Add($"<ДокПдтв{suffix} {$"НомДокПдтв{suffix}".AsAttr(docNum)} {$"ДатаДокПдтв{suffix}".AsAttr(docDate)} />");
                     }
                 }
 

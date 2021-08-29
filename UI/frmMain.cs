@@ -20,10 +20,6 @@ namespace UI
             HelpFillComboBox(cbBookType, ref bookTypeArr);
             HelpFillComboBox(cbVersionSbis, ref versionSbisArr);
 
-            lbInputPath.Items.Add(@"C:\Files\NDS\09-1.xlsx");
-            tbPathExport.Text = @"C:\Files\NDS";
-            cbBookType.SelectedIndex = 1;
-
             SetGoStyle(true);
         }
 

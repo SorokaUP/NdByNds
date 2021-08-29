@@ -366,7 +366,7 @@ namespace Core.Model
             }
 
             string filePath = $@"{pathSaveFile}\{model.fileName}.xml";
-            StreamWriter xml = new StreamWriter(filePath);//, false, Encoding.GetEncoding("Windows-1251"));
+            StreamWriter xml = new StreamWriter(filePath, false, Encoding.GetEncoding("Windows-1251"));
 
             Helper.Log($"Создан файл: {filePath}");
             try
