@@ -34,7 +34,7 @@ namespace Core
             string val = value?.ToString().Trim() ?? "";
             return feature is Feature.О
                 ? $" {name}=\"{val}\""
-                : string.IsNullOrEmpty(value?.ToString().Trim()) || NUM_ZERO.Contains(val)
+                : string.IsNullOrEmpty(val) || NUM_ZERO.Contains(val)
                     ? null
                     : $" {name}=\"{val}\"";
         }
@@ -100,7 +100,7 @@ namespace Core
             if (x is double @double)
                 return @double.AsString(degree);
 
-            string s = data[column]?.ToString();
+            string s = data[column].ToString().ClearTrash();
             if (string.IsNullOrEmpty(s))
                 return "0";
 
@@ -121,7 +121,7 @@ namespace Core
             string res;
             try
             {
-                s = s.Replace('.', ',').Replace(' ', '\0');
+                s = s.ClearTrash().Replace('.', ',').Replace(' ', '\0');
                 decimal dec = 0;
                 dec = Math.Round(decimal.Parse(s), degree);
 
@@ -169,7 +169,7 @@ namespace Core
         /// </summary>
         public static string ClearTrash(this string s)
         {
-            return s.Replace("\n", "").Replace("  ", " ");
+            return s?.Replace("\n", "").Replace("  ", " ");
         }
         /// <summary>
         /// Представить строку в виде двух атрибутов связки НомерДокумента - ДатаДокумента
