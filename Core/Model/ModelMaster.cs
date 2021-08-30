@@ -173,30 +173,30 @@ namespace Core.Model
         /// <param name="pathXml">Путь к XML файлу</param>
         public virtual bool Validate(string pathXml)
         {
-            string pathXsd = "";
+            string xsdFileFromResources = "";
             switch (bookType)
             {
                 case BookType.Book08:
-                    pathXsd = map08.PathToFileXSD;
+                    xsdFileFromResources = map08.PathToFileXSD;
                     break;
 
                 case BookType.Book09:
-                    pathXsd = map09.PathToFileXSD;
+                    xsdFileFromResources = map09.PathToFileXSD;
                     break;
 
                 case BookType.Book10:
-                    pathXsd = map10.PathToFileXSD;
+                    xsdFileFromResources = map10.PathToFileXSD;
                     break;
 
                 case BookType.Book11:
-                    pathXsd = map11.PathToFileXSD;
+                    xsdFileFromResources = map11.PathToFileXSD;
                     break;
             }
 
             return new XmlValidate
             {
                 PathXml = pathXml,
-                PathXsd = pathXsd
+                XsdFileFromResources = xsdFileFromResources
             }.Validate();
         }
         #endregion

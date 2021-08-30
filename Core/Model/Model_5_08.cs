@@ -13,7 +13,7 @@ namespace Core.Model
         {
             public override string Tag { get { return "КнигаПокуп"; } }                
             public override string TagLine { get { return "КнПокСтр"; } }
-            public override string PathToFileXSD { get { return @"G:\Work\TaxDeclaration\xsd\8_5.08_Сбис.xsd"; } }
+            public override string PathToFileXSD { get { return Properties.Resources.xsd__5_08__08; } }
             public override int NumberLineStartReadExcel { get { return 7; } }
             public override string SumTag { get { return "КнПокСтр"; } }
             public override string[] SumFields { get { return new string[]
@@ -44,7 +44,7 @@ namespace Core.Model
         {
             public override string Tag { get { return "КнигаПрод"; } }
             public override string TagLine { get { return "КнПродСтр"; } }
-            public override string PathToFileXSD { get { return @"G:\Work\TaxDeclaration\xsd\9_5.08_Сбис.xsd"; } }
+            public override string PathToFileXSD { get { return Properties.Resources.xsd__5_08__09; } }
             public override int NumberLineStartReadExcel { get { return 7; } }
             public override string SumTag { get { return "КнПродСтр"; } }
             public override string[] SumFields { get { return new string[]
@@ -83,7 +83,7 @@ namespace Core.Model
         {
             public override string Tag { get { return "ЖУчВыстСчФ"; } }
             public override string TagLine { get { return "ЖУчВыстСчФСтр"; } }
-            public override string PathToFileXSD { get { return @"G:\Work\TaxDeclaration\xsd\10_5.08_Сбис.xsd"; } }
+            public override string PathToFileXSD { get { return Properties.Resources.xsd__5_08__10; } }
             public override int NumberLineStartReadExcel { get { return 6; } }
             public override string SumTag { get { return "СвСчФОтПрод"; } }
             public override string[] SumFields { get { return new string[]
@@ -117,7 +117,7 @@ namespace Core.Model
         {
             public override string Tag { get { return "ЖУчПолучСчФ"; } }
             public override string TagLine { get { return "ЖУчПолучСчФСтр"; } }
-            public override string PathToFileXSD { get { return @"G:\Work\TaxDeclaration\xsd\11_5.08_Сбис.xsd"; } }
+            public override string PathToFileXSD { get { return Properties.Resources.xsd__5_08__11; } }
             public override int NumberLineStartReadExcel { get { return 6; } }
             public override string SumTag { get { return "ЖУчПолучСчФСтр"; } }
             public override string[] SumFields { get { return new string[]

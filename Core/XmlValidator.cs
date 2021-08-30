@@ -14,7 +14,7 @@ namespace Core
         /// <summary>
         /// Путь к XSD схеме
         /// </summary>
-        public string PathXsd { get; set; }
+        public string XsdFileFromResources { get; set; }
         /// <summary>
         /// Callback
         /// </summary>
@@ -46,7 +46,7 @@ namespace Core
             try
             {   
                 Helper.Log("Загрузка XSD файла");
-                xsdDoc.Load(PathXsd);
+                xsdDoc.LoadXml(XsdFileFromResources);
                 //Формирование XSD DOM
                 xsdSchema.Add(null, new XmlNodeReader(xsdDoc));
             }
