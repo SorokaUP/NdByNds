@@ -31,11 +31,12 @@ namespace Core
         /// <returns></returns>
         public static string AsAttr(this string name, object value, Feature feature = Feature.О)
         {
+            string val = value?.ToString().Trim() ?? "";
             return feature is Feature.О
-                ? $" {name}=\"{(value ?? "").ToString().Trim()}\""
-                : string.IsNullOrEmpty(value?.ToString().Trim()) || NUM_ZERO.Contains(value?.ToString() ?? "0")
+                ? $" {name}=\"{val}\""
+                : string.IsNullOrEmpty(value?.ToString().Trim()) || NUM_ZERO.Contains(val)
                     ? null
-                    : $" {name}=\"{(value ?? "").ToString().Trim()}\"";
+                    : $" {name}=\"{val}\"";
         }
         /// <summary>
         /// Преобразует строку в Тэг XML вида: <name>value</name>
