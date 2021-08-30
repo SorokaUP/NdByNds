@@ -148,34 +148,8 @@ namespace Core.Model
         public Model_5_08(BookType bookType, byte correctNum) 
             : base(bookType, correctNum, "5.08", new Map08(), new Map09(), new Map10(), new Map11())
         {
-            res = new StringBuilder();
+            currentModelName = this.GetType().ToString();
         }
-
-        #region Начало / Конец документа
-        public override string GetHeader()
-        {
-            return (
-                $"<?xml version=\"1.0\" encoding=\"windows-1251\" ?>" + Environment.NewLine +
-                $"<Файл {"ИдФайл".AsAttr(fileName)} {"ВерсПрог".AsAttr(this.GetType().Name)} {"ВерсФорм".AsAttr(versionName)}>" +
-                $"<Документ {"Индекс".AsAttr(GenBookIndex())} {"НомКорр".AsAttr(correctNum)}>" +
-                (
-                (bookType is BookType.Book08) ? $"<{map08.Tag} {"СумНДСВсКПк".AsAttr("0")}>" :
-                (bookType is BookType.Book09) ? $"<{map09.Tag}>" :
-                (bookType is BookType.Book10) ? $"<{map10.Tag}>" :
-                (bookType is BookType.Book11) ? $"<{map11.Tag}>" : 
-                "")).ClearTrash();
-        }
-
-        public override string GetFooter()
-        {
-            return ((
-               (bookType is BookType.Book08) ? $"</{map08.Tag}>" :
-               (bookType is BookType.Book09) ? $"</{map09.Tag}>" :
-               (bookType is BookType.Book10) ? $"</{map10.Tag}>" :
-               (bookType is BookType.Book11) ? $"</{map11.Tag}>" :
-               "") + "</Документ></Файл>").ClearTrash();
-        }
-        #endregion
 
         //====================================================================================================
 
@@ -187,7 +161,7 @@ namespace Core.Model
                 res.Clear();
                 CheckAndEditBook08(ref data);
 
-                res.Add($"<{map08.TagLine}");
+                res.Add($"<{currentMap.TagLine}");
                 res.Add("НомерПор".AsAttr(GetNumberLine()));
                 res.Add(data.AsAttrDocNumDate(Map08.НомерИДатаСФПрод, "НомСчФПрод", "ДатаСчФПрод"));
                 res.Add(data.AsAttrDocNumDate(Map08.НомерИДатаИспрСФПрод, "НомИспрСчФ", "ДатаИспрСчФ"));
@@ -203,11 +177,11 @@ namespace Core.Model
                 res.Add(GenerateSved("СвПрод", data, Map08.ИннКппПрод));
                 res.Add(GenerateGTD(data, Map08.НомерТаможДекларации));
 
-                res.Add($"</{map08.TagLine}>");
+                res.Add($"</{currentMap.TagLine}>");
             }
             catch (Exception e)
             {
-                Helper.Log($"Провал формирования строки {map08.TagLine}: {e.Message}", LogMode.Ошибка);
+                Helper.Log($"Провал формирования строки {currentMap.TagLine}: {e.Message}", LogMode.Ошибка);
                 res.Clear();
             }
             
@@ -237,7 +211,7 @@ namespace Core.Model
                 res.Clear();
                 CheckAndEditBook09(ref data);
 
-                res.Add($"<{map09.TagLine}");
+                res.Add($"<{currentMap.TagLine}");
                 res.Add("НомерПор".AsAttr(GetNumberLine()));
                 res.Add(data.AsAttrDocNumDate(Map09.НомерИДатаСФПрод, "НомСчФПрод", "ДатаСчФПрод", ';'));
                 res.Add(data.AsAttrDocNumDate(Map09.НомерИДатаИспрСФПрод, "НомИспрСчФ", "ДатаИспрСчФ", ';'));
@@ -262,11 +236,11 @@ namespace Core.Model
                 res.Add(GenerateDocSubmit(data, Map09.НомерИДатаДокПодтвОпл, "Опл"));
                 res.Add(GenerateSved("СвПокуп", data, Map09.ИннКппПокуп));
                 res.Add(GenerateSved("СвПос", data, Map09.ИннКппПоср));
-                res.Add($"</{map09.TagLine}>");
+                res.Add($"</{currentMap.TagLine}>");
             }
             catch (Exception e)
             {
-                Helper.Log($"Провал формирования строки {map09.TagLine}: {e.Message}", LogMode.Ошибка);
+                Helper.Log($"Провал формирования строки {currentMap.TagLine}: {e.Message}", LogMode.Ошибка);
                 res.Clear();
             }
 
@@ -298,7 +272,7 @@ namespace Core.Model
             try
             {
                 res.Clear();
-                res.Add($"<{map10.TagLine}");
+                res.Add($"<{currentMap.TagLine}");
                 res.Add("НомерПор".AsAttr(GetNumberLine()));
                 res.Add(data.AsAttrDocNumDate(Map10.НомерИДатаСФ, "НомСчФПрод", "ДатаСчФПрод"));
                 res.Add(data.AsAttrDocNumDate(Map10.НомерИДатаИспрСФ, "НомИспрСчФ", "ДатаИспрСчФ"));
@@ -322,11 +296,11 @@ namespace Core.Model
                 res.Add(GenerateSved("СвПрод", data, Map10.ПосредИннКппПрод));
 
                 res.Add($"</СвСчФОтПрод>");
-                res.Add($"</{map10.TagLine}>");
+                res.Add($"</{currentMap.TagLine}>");
             }
             catch (Exception e)
             {
-                Helper.Log($"Провал формирования строки {map10.TagLine}: {e.Message}", LogMode.Ошибка);
+                Helper.Log($"Провал формирования строки {currentMap.TagLine}: {e.Message}", LogMode.Ошибка);
                 res.Clear();
             }
 
@@ -340,7 +314,7 @@ namespace Core.Model
             try
             {
                 res.Clear();
-                res.Add($"<{map11.TagLine}");
+                res.Add($"<{currentMap.TagLine}");
                 res.Add("НомерПор".AsAttr(GetNumberLine()));
                 res.Add(data.AsAttrDocNumDate(Map11.НомерИДатаСФ, "НомСчФПрод", "ДатаСчФПрод"));
                 res.Add(data.AsAttrDocNumDate(Map11.НомерИДатаИспрСФ, "НомИспрСчФ", "ДатаИспрСчФ"));
@@ -359,11 +333,11 @@ namespace Core.Model
                 res.Add(GenerateSved("СвПрод", data, Map11.ИннКппПрод));
                 res.Add(GenerateSved("СвКомис", data, Map11.ПосредИннКппКомиссионера));
 
-                res.Add($"</{map11.TagLine}>");
+                res.Add($"</{currentMap.TagLine}>");
             }
             catch (Exception e)
             {
-                Helper.Log($"Провал формирования строки {map11.TagLine}: {e.Message}", LogMode.Ошибка);
+                Helper.Log($"Провал формирования строки {currentMap.TagLine}: {e.Message}", LogMode.Ошибка);
                 res.Clear();
             }
 
