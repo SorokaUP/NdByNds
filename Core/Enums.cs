@@ -6,8 +6,7 @@
     public enum VersionSbis
     {
         v5_08,
-        v5_07,
-        v5_06
+        v5_07
     }
 
     /// <summary>

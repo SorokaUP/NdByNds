@@ -305,9 +305,6 @@ namespace Core
                     case VersionSbis.v5_07:
                         return "5.07 (устарел 01.10.20 - 30.06.21)";
 
-                    case VersionSbis.v5_06:
-                        return "5.06 (устарел 01.01.19 - 30.09.21)";
-
                     default:
                         return val.ToString();
                 }

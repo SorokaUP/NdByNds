@@ -69,6 +69,78 @@ namespace Core.Properties {
         ///    &lt;xs:complexType&gt;
         ///      &lt;xs:sequence&gt;
         ///        &lt;xs:element maxOccurs=&quot;1&quot; minOccurs=&quot;1&quot; name=&quot;Документ&quot;&gt;
+        ///          &lt;xs:complexType&gt;
+        ///       [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string xsd__5_07__08 {
+            get {
+                return ResourceManager.GetString("xsd__5_07__08", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на &lt;?xml version=&quot;1.0&quot; encoding=&quot;WINDOWS-1251&quot; ?&gt;
+        ///&lt;!-- created by  Sbis 3.0 --&gt;
+        ///&lt;xs:schema attributeFormDefault=&quot;unqualified&quot; elementFormDefault=&quot;qualified&quot; xmlns:sch=&quot;http://purl.oclc.org/dsdl/schematron&quot; xmlns:usch=&quot;http://www.unisoftware.ru/schematron-extensions&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;                                    
+        ///
+        ///  &lt;xs:element name=&quot;Файл&quot;&gt;
+        ///    &lt;xs:complexType&gt;
+        ///      &lt;xs:sequence&gt;
+        ///        &lt;xs:element maxOccurs=&quot;1&quot; minOccurs=&quot;1&quot; name=&quot;Документ&quot;&gt;
+        ///          &lt;xs:complexType&gt;
+        ///       [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string xsd__5_07__09 {
+            get {
+                return ResourceManager.GetString("xsd__5_07__09", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на &lt;?xml version=&quot;1.0&quot; encoding=&quot;WINDOWS-1251&quot; ?&gt;
+        ///&lt;!-- created by  Sbis 3.0 --&gt;
+        ///&lt;xs:schema attributeFormDefault=&quot;unqualified&quot; elementFormDefault=&quot;qualified&quot; xmlns:sch=&quot;http://purl.oclc.org/dsdl/schematron&quot; xmlns:usch=&quot;http://www.unisoftware.ru/schematron-extensions&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;                                    
+        ///
+        ///  &lt;xs:element name=&quot;Файл&quot;&gt;
+        ///    &lt;xs:complexType&gt;
+        ///      &lt;xs:sequence&gt;
+        ///        &lt;xs:element maxOccurs=&quot;1&quot; minOccurs=&quot;1&quot; name=&quot;Документ&quot;&gt;
+        ///          &lt;xs:complexType&gt;
+        ///       [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string xsd__5_07__10 {
+            get {
+                return ResourceManager.GetString("xsd__5_07__10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на &lt;?xml version=&quot;1.0&quot; encoding=&quot;WINDOWS-1251&quot; ?&gt;
+        ///&lt;!-- created by  Sbis 3.0 --&gt;
+        ///&lt;xs:schema attributeFormDefault=&quot;unqualified&quot; elementFormDefault=&quot;qualified&quot; xmlns:sch=&quot;http://purl.oclc.org/dsdl/schematron&quot; xmlns:usch=&quot;http://www.unisoftware.ru/schematron-extensions&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;                                    
+        ///
+        ///  &lt;xs:element name=&quot;Файл&quot;&gt;
+        ///    &lt;xs:complexType&gt;
+        ///      &lt;xs:sequence&gt;
+        ///        &lt;xs:element maxOccurs=&quot;1&quot; minOccurs=&quot;1&quot; name=&quot;Документ&quot;&gt;
+        ///          &lt;xs:complexType&gt;
+        ///       [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string xsd__5_07__11 {
+            get {
+                return ResourceManager.GetString("xsd__5_07__11", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на &lt;?xml version=&quot;1.0&quot; encoding=&quot;WINDOWS-1251&quot; ?&gt;
+        ///&lt;!-- created by  Sbis 3.0 --&gt;
+        ///&lt;xs:schema attributeFormDefault=&quot;unqualified&quot; elementFormDefault=&quot;qualified&quot; xmlns:sch=&quot;http://purl.oclc.org/dsdl/schematron&quot; xmlns:usch=&quot;http://www.unisoftware.ru/schematron-extensions&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;                                    
+        ///
+        ///  &lt;xs:element name=&quot;Файл&quot;&gt;
+        ///    &lt;xs:complexType&gt;
+        ///      &lt;xs:sequence&gt;
+        ///        &lt;xs:element maxOccurs=&quot;1&quot; minOccurs=&quot;1&quot; name=&quot;Документ&quot;&gt;
         ///          &lt;xs:complexType [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string xsd__5_08__08 {

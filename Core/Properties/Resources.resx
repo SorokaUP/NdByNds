@@ -118,6 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="xsd__5_07__08" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\xsd\xsd__5_07__08.xsd;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="xsd__5_07__09" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\xsd\xsd__5_07__09.xsd;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="xsd__5_07__10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\xsd\xsd__5_07__10.xsd;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="xsd__5_07__11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\xsd\xsd__5_07__11.xsd;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
   <data name="xsd__5_08__08" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\XSD\xsd__5_08__08.xsd;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>

@@ -67,6 +67,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="XSD\xsd__5_07__08.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD\xsd__5_07__09.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD\xsd__5_07__10.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD\xsd__5_07__11.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="XSD\xsd__5_08__08.xsd">
       <SubType>Designer</SubType>
     </None>
